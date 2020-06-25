@@ -58,4 +58,8 @@ let helmhardbass = s "midi" # midichan 0
 -- MIDI Controls
 let mifilter value = ccn 14 # ccv value
 
+-- Aliases
+let wm = whenmod
+let fa = fast
+
 :set prompt "tidal> "

@@ -10,6 +10,7 @@ s.waitForBoot {
 
 	// Samples init
     ~dirt.loadSoundFiles;
+	~dirt.loadSoundFiles(File.getcwd +/+ "samples/*");
 	
 	// Synths init
 	SynthDef(\bass8, {
@@ -47,8 +48,6 @@ s.waitForBoot {
 	MIDIClient.init(0, 0);
 	~midiOut = MIDIOut.newByName("Virtual Raw MIDI 0-0", "VirMIDI 0-0");
 	~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
-
-	s.sync;
     ~dirt.start(20626, 24.collect({0}));
 };
 )

@@ -1,14 +1,43 @@
--- Midsommar
+-- Tremor
 
-d1 $ s "bd*4" # gain 2
+-- d1
+--   $ sometimes (rev)
+--   $ fast 2
+--   $ arpeggiate $ n "<e4'min7'4 b4'dim7'8>" # helmhardbass
+--     # gain 1
+--     # mifilter (segment 2 $ range "<40 80>" 127 $ slow 4.2 $ sine)
+
+-- d2 $ s "bd*4" # gain 2
+
+-- hush
+
+setcps (144/60/4)
 
 d1
-  $ sometimes (rev)
-  $ fast 2
-  $ arpeggiate $ n "<e4'min7'4 b4'dim7'8>" # helmhardbass
-    # gain 1
-    # mifilter (segment 2 $ range "<40 80>" 127 $ slow 4.2 $ sine)
+  $ n "[0(<3 5>, 8), ~ 2 ~, 2(3, 8, <3 4 5>)]"
+    # s "dt3kick"
+    # shape 0.2
+    # legato 1
 
-d2 $ s "bd*4" # gain 2
+d2
+  $ struct "<[~ t t? ~] [t ~ t? ~]>" $ n (irand 100)
+    # s "dt3sfx"
+    # legato 2 # hpf 500 # hpq 0.2 # lpf 12000 # lpq 0.2
+
+d3
+  $ n "[~ [2 ~ [3?]!2] [~ 5*3?] 1(2, 3)]/3"
+    # s "dt2snare*2"
+    # shape 0.4
+    # gain 1.1
+
+d4 $ n "<0 1 4 7>/4" # s "dt3impact" # shape 0.5
+
+d5
+  $ loopAt 2
+  $ striate 16 $ n "15"
+    # s "8dtbass"
+    # gain 1.2
+    # shape 0.4
+    # legato 1
 
 hush
