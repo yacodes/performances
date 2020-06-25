@@ -1,0 +1,15 @@
+-- Midsommar
+
+d1 $ s "bd*4" # gain 2
+
+d1
+  $ sometimes (rev)
+  $ fast 2
+  $ arpeggiate $ n "<e'min7'4 b'dim7'8>"
+    # s "midi"
+    # gain 1
+    # midichan 0
+
+d2 $ s "bd*4" # gain 2
+
+hush
