@@ -52,4 +52,10 @@ let d10 = p 10 . (|< orbit 9)
 let d11 = p 11 . (|< orbit 10)
 let d12 = p 12 . (|< orbit 11)
 
+-- MIDI Instruments
+let helmhardbass = s "midi" # midichan 0
+
+-- MIDI Controls
+let mifilter value = ccn 14 # ccv value
+
 :set prompt "tidal> "

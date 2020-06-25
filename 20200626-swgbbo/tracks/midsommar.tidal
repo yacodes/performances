@@ -5,10 +5,9 @@ d1 $ s "bd*4" # gain 2
 d1
   $ sometimes (rev)
   $ fast 2
-  $ arpeggiate $ n "<e'min7'4 b'dim7'8>"
-    # s "midi"
+  $ arpeggiate $ n "<e4'min7'4 b4'dim7'8>" # helmhardbass
     # gain 1
-    # midichan 0
+    # mifilter (segment 2 $ range "<40 80>" 127 $ slow 4.2 $ sine)
 
 d2 $ s "bd*4" # gain 2
 
