@@ -1,0 +1,27 @@
+-- 12 Louisiana
+
+setcps (168/60/4)
+
+d1
+  -- $ sometimes (fa 2)
+  $ sl 1
+  $ n ("c e g a bf a g e" + "<0!4 5!2 0!2 7 5 0 7>" + "-12") # s "midi" # midichan 7
+  # nudge "[0 0.04]"
+
+d2 $ struct "<{t*8 ~} t(11,16)>" $ s "dt3kick" # n "19"
+
+d3 $ s "dt3snare(<7 9 11>, 16)" # n (range 5 12 $ perlinWith cosine)
+
+d4 $ s "dt3hat" <| n (segment 16 $ range 10 20 $ perlinWith (cosine + saw)) # legato 1 # pan (slow 4 $ sine)
+
+d5 $ wm 3 2 (# gain 1.2) $ s "dt3clap(11, 16)" # gain 0
+
+d6 $ loopAt 4 $ striate 8 $ s "8dt3bass" # n "<35>" # gain 1.2 # shape 0.2
+
+d7 $ s "dt3kick" # shape 0.2 # gain 1.2
+
+$ wm 32 30 (# gain 0)
+
+$ wm 32 30 (const $ loopAt 2 $ striate 8 $ s "dt3sweepup" # n "12" # gain 1.2)
+
+hush

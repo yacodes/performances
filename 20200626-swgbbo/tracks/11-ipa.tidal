@@ -1,0 +1,23 @@
+-- 11 IPA
+
+setcps (128/60/4)
+
+d1 $ n "<a'min7 c'maj7 g'maj7 [d'min7 e'min7]>/4" # s "midi" # midichan 5
+
+d2 $ loopAt 4 $ striate 32 $ s "8tratmo:1" # gain 1
+
+d3 $ loopAt 4 $ chop 8 $ s "8tfperc" # n "<0 1 2 3 4 5>" # gain 1.3
+
+d4 $ loopAt 4 $ chop 8 $ s "8obj" # n "<5 6 7>" # gain 1.3
+
+d5 $ loopAt 4 $ chop 8 $ s "8scp" # n "<4 5>" # gain 1
+
+d6 $ s "~!2 dt2clap ~"
+
+d7 $ s "dt3vox([3|4|5], 8, <0 2 4 3 7>)" # n (irand 8) # cut 1 # gain 1.2
+
+d8 $ wm 16 12 (# gain 1.3) $ loopAt 4 $ striate 8 $ s "dt3sweepup" # n "8" # gain 0
+
+d9 $ loopAt 4 $ chop 4 $ s "8dt3tops" # n "4" # gain 1.2
+
+hush
