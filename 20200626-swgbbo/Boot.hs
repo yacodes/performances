@@ -3,6 +3,7 @@
 :set prompt-cont ""
 
 import Sound.Tidal.Context
+import Sound.Tidal.Chords
 
 tidal <- startTidal (superdirtTarget {oLatency = 0.2, oAddress = "127.0.0.1", oPort = 20626}) (defaultConfig {cFrameTimespan = 1/20})
 
@@ -53,7 +54,8 @@ let d11 = p 11 . (|< orbit 10)
 let d12 = p 12 . (|< orbit 11)
 
 -- MIDI Instruments
-let helmhardbass = s "midi" # midichan 0
+-- let helmhardbass = s "midi" # midichan 0
+let helmdaisy = s "midi" # midichan 0
 
 -- MIDI Controls
 let mifilter value = ccn 14 # ccv value
