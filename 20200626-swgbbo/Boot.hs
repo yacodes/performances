@@ -56,6 +56,9 @@ let d12 = p 12 . (|< orbit 11)
 -- MIDI Instruments
 -- let helmhardbass = s "midi" # midichan 0
 let helmdaisy = s "midi" # midichan 0
+let talbsbs = s "midi" # midichan 1
+let helmperc = s "midi" # midichan 2
+let helmekick = s "midi" # midichan 3
 
 -- MIDI Controls
 let mifilter value = ccn 14 # ccv value
@@ -63,5 +66,6 @@ let mifilter value = ccn 14 # ccv value
 -- Aliases
 let wm = whenmod
 let fa = fast
+let sl = slow
 
 :set prompt "tidal> "
