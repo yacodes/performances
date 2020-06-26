@@ -1,0 +1,20 @@
+-- 08 Lunar
+
+setcps (140/60/4)
+
+d1 $ fa 2 $ struct "[t [<~ t> <t ~>] [~ <t>] [<t ~> ~]]" $ n ("<e4!3 [a4 bs4]>" + "<0!14 7!2>") # s "midi" # midichan 4
+
+d2 $ struct "[<t(3, 4) t> t [~ <t t(2,3)>] [t ~!2 t]]" $ n "16" # s "dt3kick" # gain 1.2
+
+d3 $ struct "t(<3!3 5>,8)" $ n "6" # s "dt2snare"
+
+d4 $ n (segment 16 $ range 10 20 $ slow 2 $ perlinWith sine) # legato 1 # s "dt2fx"
+
+d5 $ s "dt3impact/2" # n (irand 100)
+
+d6 $ degradeBy 0.25 $ s "tfvox*16" # legato 1 # n (range 0 20 $ slow 2.125 $ cosine + 0.125) # pan (sine)
+
+wm 32 30 (# gain 0)
+wm 32 30 (const $ loopAt 2 $ striate 8 $ s "dt3seepd:1")
+  
+hush

@@ -1,0 +1,22 @@
+-- 07 Delorean
+
+setcps (132/60/4)
+
+d1 $ wm 5 3 (# gain 0) $ loopAt 2 $ striate 32 $ s "8scp" # gain 0.8 # pan (slow 2 $ sine)
+
+d2 $ struct "[t [~ t] [~ t!2 ~] [~ t]]" $ n "7" # s "dt2kick"
+
+d3 $ struct "[~ [t ~ <t ~>] [~ <~ t?>] [<~ t*2> <t(2, 3) ~>]]" $ n "2" # s "thsnare" # gain 1.1
+
+d4 $ struct "<[~ t]!7 <t*2 t(2, 3)>>*4" $ n "11" # s "dt3ride" # legato 1 # gain 0.9
+
+d5 $ (0.125 <~) $ jux rev $ struct "t(11, 16)" $ n "{0 1 2 7}%16" # s "dt3hat" # gain (range 0.7 1 $ perlinWith sine)
+
+d6 $ loopAt 4 $ striate 8 $ s "8dt2bass:28" # gain 1
+
+d7 $ loopAt 4 $ striate 8 $ s "8dt2synth" # gain 0.9 # n "<9 10>/4"
+
+wm 32 28 (# gain 0)
+const $ wm 32 28 $ loopAt 2 $ striate 8 $ s "dt3sweepup:13"
+
+hush
