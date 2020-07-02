@@ -8,4 +8,444 @@ do
     d4 $ s "dtfx/2" # n (irand 100) # gain 1.6 # legato 1
     d5 $ loopAt 2 $ striate 16 $ s "sweepup/4" # gain 1.3
 
+d6 $ sometimes (fast 2) $ iter 2 $ n "t [t*2 t] [t*2] t(3, 8)" # s "dt3kick" # gain 1.2 # n "[3 4 5 6]"
+
+d7 $ n "1 [2 3] 4*2 1(2,3)" $ s "dt3snare"
+
+d6 silence
+
+d7 silence
+
 hush
+
+-- Still lagging? :(((
+
+
+-- 02 Tremor
+
+setcps (128/60/4)
+
+d1 $ n "[0(<3 5>, 8), ~ 2 ~, 2(3, 8, <3 4 5>)]" # s "dt3kick" # shape 0.4 # legato 1
+
+d1
+  -- $ whenmod 16 14 (const $ qtrigger 1 $ loopAt 4 $ striate 8 $ s "dt3sweepup:1" # gain 1.4)
+  $ stack [
+        n "[0(<3 5>, 8), ~ 2 ~, 2(<3 5 7>, 8, <3 4 5>)]"
+            # s "dt3kick"
+            # shape 0.4 # gain 1.2
+            # legato 1,
+        struct "<[~ t t? ~] [t ~ t? ~]>" $ n "{1 [2 4] 3}%6"
+            # s "dt3sfx"
+            # legato 2 # hpf 500 # hpq 0.2 # lpf 12000 # lpq 0.2,
+        n "[~ [2 ~ [3?]!2] [~ 5*3?] 1(2, 3)]/3"
+            # s "dt2snare*2"
+            # shape 0.4
+            # gain 1.1,
+        n "<0 1 4 7>/4" # s "dt3impact" # shape 0.5 # gain 1.1,
+        sometimes (off "[e q]/3" (|+ speed 2))
+            $ struct "t(<11 13>, 16, <0 1 2 3 4>)"
+            $ s "dt3hat"
+                # n (range 7 11 $ slow 4 $ sine)
+                # pan (fast 4 $ perlinWith sine)
+    ]
+
+d2
+  $ loopAt 2
+  $ slice 8 "0 0 0 0 1 1 1 1"
+  $ s "8dt2bass:8"
+    # gain 1.2 # shape 0.4 |+ speed 0.02
+
+d3
+  $ whenmod 16 14 (# gain 0)
+  $ sometimes (fa 2)
+  $ shuffle 2
+  $ loopAt 4
+  $ slice 8 (scramble 2 $ "[0 2] 1 1 1 1 [5 5] 6 6")
+  $ s "8dt2synth:4"
+    # gain 1
+    # room 0.2
+    # sz 0.1
+    # pan "[0 1]"
+
+d2 silence
+
+d3 silence
+
+hush
+
+
+-- Crossfade
+do
+  xfadeIn 1 64 $ loopAt 4 $ striate 8 $ s "8dt3synth:9" # legato 1
+  xfadeIn 2 64 $ silence
+  xfadeIn 3 64 $ silence
+  xfadeIn 4 64 $ silence
+  xfadeIn 5 64 $ silence
+  xfadeIn 6 64 $ silence
+  xfadeIn 7 64 $ silence
+
+-- 03 Law
+
+setcps (138/60/4)
+
+d1 $ sometimes rev $ shuffle 4 $ loopAt 4 $ striate 8 $ s "8dt3synth:9" # legato 1
+
+d1 silence
+
+d2
+  $ wm 16 14 (const $ qtrigger 2 $  loopAt 2 $ chop 8 $ s "dt3sweepup:5" # gain 1.2)
+  $ stack [
+    struct "t t [~ t] t(2, 3)" $ "50k:3*4" # shape 0.2 # gain 1.2,
+    (0.25 ~>) $ s "dt3snare*2" # gain 1.2,
+    every 4 (fa 2) $ (0.125 ~>) $ s "dt3ride:2*4" # legato 1,
+    jux rev $ struct "t(<11 5 7>, 16, <0 1 2 3>)" $ s "dt3hat" # gain 1.1 # n "[0 1 2 3]"
+]
+
+d3
+  $ rarely brak
+  $ shuffle 2 $ n (scale "minor" ("[e e ~!2] [g ~!2 b] [g] [a b]" + "-24" + "<0!3 5 0!2 5 4>")) # talbsbs # legato 1
+
+d4
+  $ wm 16 14 (# gain 0)
+  $ sometimes (fa 2) $ loopAt 2 $ striate 32 $ s "8scp" # n "<8 9 10 11>" # gain 1.2 # pan (sine)
+
+hush
+
+-- Crossfade
+do
+  xfadeIn 1 64 $ struct "<t(<4 5 6 7 8>, 8, <3 2 3 5>)>" $ s "dt3vox*4" # n (irand 20) # legato 1 # gain 1.3
+  xfadeIn 2 64 $ silence
+  xfadeIn 3 64 $ silence
+  xfadeIn 4 64 $ silence
+  xfadeIn 5 64 $ silence
+  xfadeIn 6 64 $ silence
+  xfadeIn 7 64 $ silence
+
+-- 04 Real Talk
+
+setcps (164/60/4)
+
+d1
+  $ wm 32 30 (const $ silence)
+  $ struct "<t(<4 5 6 7 8>, 8, <3 2 3 5>)>" $ s "dt3vox*4" # n (irand 20) # legato 1 # gain 1.3
+
+d2
+  $ wm 16 14 (const $ loopAt 2 $ striate 8 $ s "dt3seepd" # gain 1.3)
+  $ stack [
+    every 2 ((fa 2) . degrade) $ s "thkick*4" # shape 0.4,
+    off "<e q>" (|+ speed 2) $ s "~ dt3snare:1" # delay 0.7 # delayt 0.1 # delayfb 0.6 # room 0.1 # sz 0.4,
+    wm 5 3 ((# gain (sine)) . (|+ speed 2)) $ off "e" (|+ n 1) $ s "dthat*15" # gain 0.7 # shape 0.2 # pan (slow 4 $ perlinWith sine)
+  ]
+
+d3 $ s "dt3impact/2" # n (irand 100) # legato 1 # shape 0.2 # gain 1.2
+
+d4
+  $ wm 32 30 (const $ silence)
+  $ stack [
+    loopAt 4 $ striate 8 $ s "8thbass:1" # gain 1.2 # shape 0.5,
+    loopAt 4 $ striate 8 $ s "8tfsynth" # gain 1.2,
+    loopAt 4 $ striate 8 $ s "8tfperc:2" # gain 1.5
+]
+
+d5 $ n "1 [2 ~] [~!2 3 <7 ~>] 4" # s "dt3clap" # gain 1.1
+
+d6 $ s "dt2perc(13, 16)" # n (range 10 20 $ perlinWith sine) # pan (sine)
+
+d7 $ s "dt3kick*4" # n "8" # gain 1.4 # shape 0.2
+
+d7 silence
+
+hush
+
+-- Clutch in
+do
+  clutchIn 1 16 $ iter 2 $ n "[<9 0> ~ [10|2|~] ~] <[~ 5] {12*3}> [5 ~!2 8] [~!2 6]" # s "50s*4" # legato 1
+  clutchIn 2 16 $ silence
+  clutchIn 3 16 $ silence
+  clutchIn 4 16 $ silence
+  clutchIn 5 16 $ silence
+  clutchIn 6 16 $ silence
+  clutchIn 7 16 $ silence
+
+
+-- 05 Anxiety
+
+setcps (188/60/4)
+
+d1 $ shuffle 2 $ iter 2 $ n "[<9 0> ~ [10|2|~] ~] <[~ 5] {12*3}> [5 ~!2 8] [~!2 6]" # s "50s*4" # legato 1
+
+d2 $ n "~ [~ <4 8(2, 3)>] ~ [~!3 9]" # s "dtperc" # cut "2"
+
+d3
+$ wm 16 14 (# gain 0)
+  $ wm 5 3 (off "<e q t>" (|+ speed 2)) $ n "4(3, 8)" # s "50k" # gain 1.5 # shape 0.2
+
+d4
+$ wm 16 14 (# gain 0)
+  $ sometimes (off "e" (|+ speed 4)) $ n "{[~!2 [~ 0] ~] 1 [~ 0] <~ 4>}" # s "thclap" 
+
+d5
+$ wm 16 14 (# gain 0)
+  $ struct "t(13, 16)" $ n (segment 16 $ range 0 16 $ fa 2 $ perlinWith sine) # s "dthat" # pan (fa 2.25 $ perlinWith sine) # gain 0.8
+
+d6
+  $ wm 16 14 (const $ loopAt 2 $ striate 8 $ s "dt3sweepup")
+  $ shuffle 4 $ fa 2 $ loopAt 4 $ striate 8 $ s "8thbass" # gain 1 # shape 0.4
+
+d7
+  $ wm 16 14 (# gain 1.2) $ loopAt 2 $ striate 8 $ s "dt2fx:4" # gain 0 # shape 0.2
+
+$ wm 16 14 (# gain 0)
+
+hush
+
+-- Crossfade
+do
+  xfadeIn 1 16 $ iter 4 $ fa 2 $ struct "t(5, 8, <0 3>)" $ arp "converge" $ n "<e'min7 b'dim7>" # helmperc
+  xfadeIn 2 16 $ silence
+  xfadeIn 3 16 $ silence
+  xfadeIn 4 16 $ silence
+  xfadeIn 5 16 $ silence
+  xfadeIn 6 16 $ silence
+  xfadeIn 7 16 $ silence
+
+-- 06 Free your RAM and your ass will follow
+
+setcps (138/60/4)
+
+d1 $ iter 4 $ fa 2 $ struct "t(5, 8, <0 3>)" $ arp "converge" $ n "<e'min7 b'dim7>" # helmperc
+
+d2 $ wm 11 10 (fa 2) $ n "<e4!3 e4(5, 8)>" # helmekick
+
+d3
+  $ wm 32 28 (const silence)
+  $ s "thkick*4" # gain 1.3
+
+d4 $ s "<[~ dt3snare] dt3snare(3, 8, 2)>" # gain 1 # n "[8 9 10 11]/3"
+
+d5 $ wm 5 4 (rev) $ s "dt2perc(<13 15>, 16)" # n (segment 16 $ range 10 24 $ perlinWith sine) # pan "[0.2 0.8]*8" # gain 1.1
+
+d6
+  $ wm 32 28 (const silence)
+  $ sometimes (off "<e q>" ((|+ speed 3) . (|+ gain 0.4))) $ wm 11 9 (struct "t(5,8)") $ (0.125 <~) $ s "dt3ride:5*4" # gain 0.8
+
+d7
+  $ wm 32 28 (const silence)
+  $ loopAt 4 $ striate 4 $ s "8dt3synth:9" # pan "[0.25 0.75]"
+
+d8
+  $ wm 32 28 (const $ loopAt 4 $ striate 4 $ s "dt3sweepup:19" # gain 1.3 # shape 0.2)
+  $ off "<e q>" (|+ speed 2) $ s "dthat(13, 16)" # gain 0.9 # pan (sl 2 $ perlinWith sine)
+
+$ wm 32 28 (const silence)
+$ wm 32 28 (const $ loopAt 4 $ striate 8 $ s "dt3sweepup:19" # gain 1.3 # shape 0.2)
+
+hush
+
+-- Crossfade
+do
+  xfadeIn 1 16 $ loopAt 2 $ striate 32 $ s "8scp" # gain 0.8 # pan (slow 2 $ sine)
+  xfadeIn 2 16 $ struct "[t [~ t] [~ t!2 ~] [~ t]]" $ n "7" # s "dt2kick"
+  xfadeIn 3 16 $ silence
+  xfadeIn 4 16 $ silence
+  xfadeIn 5 16 $ silence
+  xfadeIn 6 16 $ silence
+  xfadeIn 7 16 $ silence
+
+ -- 07 Delorean
+
+setcps (132/60/4)
+
+d1 $ wm 5 3 (# gain 0) $ shuffle 2 $ loopAt 2 $ striate 32 $ s "8scp" # gain 0.8 # pan (slow 2 $ sine) # n "<0 1 3>"
+
+d2
+ $ wm 32 28 (const $ loopAt 4 $ striate 8 $ s "dt3sweepup:13")
+  $ struct "[t [~ t] [~ t!2 ~] [~ t]]" $ n "7" # s "dt2kick" # gain 1.2
+
+d3 $ struct "[~ [t ~ <t ~>] [~ <~ t?>] [<~ t*2> <t(2, 3) ~>]]" $ n "2" # s "thsnare" # gain 1.1
+
+d4
+ $ wm 32 28 (# gain 0)
+  $ struct "<[~ t]!7 <t*2 t(2, 3)>>*4" $ n "11" # s "dt3ride" # legato 1 # gain 0.9
+
+d5
+ $ wm 32 28 (# gain 0)
+  $ (0.125 <~) $ jux rev $ struct "t(11, 16)" $ n "{0 1 2 7}%16" # s "dt3hat" # gain (range 0.7 1 $ perlinWith sine)
+
+d6
+ $ wm 32 28 (# gain 0)
+  $ loopAt 4 $ striate 8 $ s "8dt2bass:28" # gain 1
+
+d7
+ $ wm 32 28 (# gain 0)
+  $ shuffle 4 $ loopAt 4 $ striate 8 $ s "8dt2synth" # gain 0.9 # n "<9 10>/4"
+
+wm 32 28 (# gain 0)
+const $ wm 32 28 $ loopAt 2 $ striate 8 $ s "dt3sweepup:13"
+
+hush
+ 
+-- Clutch in
+do
+  clutchIn 1 16 $ struct "[t [<~ t> <t ~>] [~ <t>] [<t ~> ~]]" $ n ("<e4!3 [a4 bs4]>" + "<0!14 7!2>") # s "midi" # midichan 4
+  clutchIn 2 16 $ struct "[<t(3, 4) t> t [~ <t t(2,3)>] [t ~!2 t]]" $ n "16" # s "dt3kick" # gain 1.2
+  clutchIn 3 16 $ silence
+  clutchIn 4 16 $ silence
+  clutchIn 5 16 $ silence
+  clutchIn 6 16 $ silence
+  clutchIn 7 16 $ silence
+  
+-- 08 Lunar
+
+setcps (140/60/4)
+
+d1
+$ wm 32 30 (# gain 0)
+  $ shuffle 2 $ fa 2 $ struct "[t [<~ t> <t ~>] [~ <t>] [<t ~> ~]]" $ n ("<e4!3 [a4 bs4]>" + "<0!14 7!2>") # s "midi" # midichan 4
+
+d2
+$ wm 32 30 (# gain 0) $ struct "[<t(3, 4) t> t [~ <t t(2,3)>] [t ~!2 t]]" $ n "16" # s "dt3kick" # gain 1.2
+
+d3
+$ wm 32 30 (# gain 0)
+  $ struct "t(<3!3 5>,8)" $ n "6" # s "dt2snare"
+
+d4
+$ wm 32 30 (const $ loopAt 2 $ striate 8 $ s "dt3seepd:1")
+  $ n (segment 16 $ range 10 20 $ slow 2 $ perlinWith sine) # legato 1 # s "dt2fx"
+
+d5 $ s "dt3impact/2" # n (irand 100)
+
+d6
+  $ degradeBy 0.1 $ s "tfvox*16" # legato 1 # n (range 0 20 $ slow 2.125 $ cosine + 0.125) # pan (sine) # gain 1.1
+
+$ wm 32 30 (# gain 0)
+$ wm 32 30 (const $ loopAt 2 $ striate 8 $ s "dt3seepd:1")
+  
+hush
+
+-- Clutch in
+do
+  clutchIn 1 16 $ shuffle 4 $ loopAt 4 $ striate 8 $ s "8tfsynth" # n "19"
+  clutchIn 2 16 $ silence
+  clutchIn 3 16 $ silence
+  clutchIn 4 16 $ struct "[~ t]" $ s "dt3snare" # n "15"
+  clutchIn 5 16 $ silence
+  clutchIn 6 16 $ silence
+  clutchIn 7 16 $ silence
+
+
+-- 09 Don't say gop
+
+setcps (152/60/4)
+
+d1
+  $ wm 16 14 (const $ loopAt 2 $ striate 8 $ s "dt3sweepup" # n "22")
+  $ shuffle 4 $ loopAt 4 $ striate 8 $ s "8tfsynth" # n "19" # gain 1.2
+
+d2
+  $ wm 16 14 (# gain 0)
+  $ struct "<[t*4]!3 [t*2 t(<3 5>/2,8)]>" $ stack [
+    s "dt3kick:3" # crush 5 # shape 0.2,
+    s "dt3kick:7"
+  ] # gain 1.6
+
+d3
+  $ wm 16 14 (# gain 0)
+  $ struct "[~ t]*4" $ s "dt3ride" # n "9" # gain 1 
+
+d4 $ struct "[~ t]" $ s "dt3snare" # n "15" # gain 1.1
+
+d5
+  $ wm 16 14 (# gain 0)
+  $ struct "t(<11 13 15>, 16, <3 1 3 2 3>)" $ s "dt3hat" # n "{10 11 12}%3" # gain 1 # pan (sl 2 $ perlin)
+
+d6 $ someCycles (fa 2) $ slice 8 "[0] [~ 2] [~] [6 7]" $ s "8dt3synth" # gain 1 # legato 1 # n "<21!3 22>" # pan (sine)
+
+$ wm 16 14 (# gain 0)
+$ wm 16 14 (const $ loopAt 2 $ striate 8 $ s "dt3sweepup" # n "22")
+
+hush
+
+-- Clutch in
+do
+  clutchIn 1 16 $ degradeBy 0.2 $ rev $ wm 7 5 (struct "t(13,16,<0 2 3 4>)") $ trunc 0.75 $ fa 2 $ s "[dt3kick*8]" # crush 4 # n "20" # legato 1 # shape "{0 0.1 0.2 0.3}%3"
+  clutchIn 2 16 $ silence
+  clutchIn 3 16 $ silence
+  clutchIn 4 16 $ loopAt 4 $ striate 8 $ s "8dt3bass:41" # gain 1 # shape 0.5
+  clutchIn 5 16 $ silence
+  clutchIn 6 16 $ silence
+  clutchIn 7 16 $ silence
+
+-- 10 Bucket of Water
+
+setcps (168/60/4)
+
+d1
+$ wm 32 30 $ (const $ loopAt 2 $ rev $ striate 32 $ s "dt3impact" # gain 1.4 # shape 0.5)
+  $ degradeBy 0.2 $ rev $ wm 7 5 (struct "t(13,16,<0 2 3 4>)") $ trunc 0.75 $ fa 2 $ s "[dt3kick*8]" # crush 4 # n "20" # legato 1 # shape "{0 0.1 0.2 0.3}%3"
+
+d2
+$ wm 32 30 (# gain 0)
+  $ rev $ trunc 0.75 $ s "dt2bass*16" # legato 1 # n "[3 4]*16"
+
+d3
+$ wm 32 30 (# gain 0)
+  $ struct "t(11, 16)" $ s "dt3hat" # n "[30 31 32]" # gain 0.9 # pan (range 0 1 $ slow 4 $ perlinWith sine)
+
+d4 $ loopAt 4 $ striate 8 $ s "8dt3bass:41" # gain 1 # shape 0.5
+
+d5 $ shuffle 4 $ loopAt 4 $ gap 16 $ s "8dt3synth:49" # gain 1 # shape 0.2 # pan (sine)
+
+d6
+$ wm 32 30 (# gain 0)
+  $ every 4 (fa 2) $ struct "[~ t]*4" $ s "dt3ride" # n "11" # gain 0.9 # legato 1
+
+hush
+
+
+-- Crossfade
+do
+  xfadeIn 1 16 $ silence
+  xfadeIn 2 16 $ loopAt 4 $ striate 32 $ s "8tratmo:1" # gain 1
+  xfadeIn 3 16 $ loopAt 4 $ chop 8 $ s "8tfperc" # n "<0 1 2 3 4 5>" # gain 1.3
+  xfadeIn 4 16 $ silence
+  xfadeIn 5 16 $ silence
+  xfadeIn 6 16 $ silence
+  xfadeIn 7 16 $ silence
+
+
+-- 11 IPA
+
+setcps (128/60/4)
+
+d1 $ n "<a'min7 c'maj7 g'maj7 [d'min7 e'min7]>/4" # s "midi" # midichan 5
+
+d2 $ loopAt 4 $ striate 32 $ s "8tratmo:1" # gain 1
+
+d3 $ loopAt 4 $ chop 8 $ s "8tfperc" # n "<0 1 2 3 4 5>" # gain 1.3
+
+d4 $ loopAt 4 $ chop 8 $ s "8obj" # n "<5 6 7>" # gain 1.3
+
+d5 $ loopAt 4 $ chop 8 $ s "8scp" # n "<4 5>" # gain 1
+
+d6 $ s "~!2 dt2clap ~"
+
+d7 $ s "dt3vox([3|4|5], 8, <0 2 4 3 7>)" # n (irand 8) # cut 1 # gain 1.2
+
+d8 $ wm 16 12 (# gain 1.3) $ loopAt 4 $ striate 8 $ s "dt3sweepup" # n "8" # gain 0
+
+d9 $ loopAt 4 $ chop 4 $ s "8dt3tops" # n "4" # gain 1.2
+
+d9 silence
+
+hush
+
+do
+  xfadeIn 1 16 $ silence
+  xfadeIn 2 16 $ silence
+  xfadeIn 3 16 $ silence
+  xfadeIn 4 16 $ silence
+  xfadeIn 5 16 $ silence
+  xfadeIn 6 16 $ silence
+  xfadeIn 7 16 $ silence

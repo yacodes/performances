@@ -1,19 +1,19 @@
 -- Crossfade
 do
-  xfadeIn 1 64 $ silence
-  xfadeIn 2 64 $ silence
-  xfadeIn 3 64 $ silence
-  xfadeIn 4 64 $ silence
-  xfadeIn 5 64 $ silence
-  xfadeIn 6 64 $ silence
-  xfadeIn 7 64 $ silence
+  xfadeIn 1 16 $ silence
+  xfadeIn 2 16 $ silence
+  xfadeIn 3 16 $ silence
+  xfadeIn 4 16 $ silence
+  xfadeIn 5 16 $ silence
+  xfadeIn 6 16 $ silence
+  xfadeIn 7 16 $ silence
 
 -- Clutch in
 do
-  clutchIn 1 64 $ silence
-  clutchIn 2 64 $ silence
-  clutchIn 3 64 $ silence
-  clutchIn 4 64 $ silence
-  clutchIn 5 64 $ silence
-  clutchIn 6 64 $ silence
-  clutchIn 7 64 $ silence
+  clutchIn 1 16 $ silence
+  clutchIn 2 16 $ silence
+  clutchIn 3 16 $ silence
+  clutchIn 4 16 $ silence
+  clutchIn 5 16 $ silence
+  clutchIn 6 16 $ silence
+  clutchIn 7 16 $ silence
